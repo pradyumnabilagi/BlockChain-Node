@@ -48,7 +48,11 @@ var contractins=new web3.eth.Contract([
 		"name": "getchunk",
 		"outputs": [
 			{
-				"name": "",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"name": "res",
 				"type": "bytes"
 			}
 		],
@@ -135,9 +139,9 @@ function fileadder(i,j,name,coinbase)
 
 
 
-async function test(fileplace,len,name)
+async function test(fileplace,len,name,directory)
 {
-    const readstream=fs.createReadStream(name);
+    const readstream=fs.createReadStream(directory+name);
   
     let buffer=[];
     for await (chunk of readstream)
@@ -198,15 +202,18 @@ async function getfiles(subname,max){
 	let buff=[];
 	
 	let j=0;
+	let resu;
 	for(let i=0;i<Num;i++)
 	{
 		chunks=[];
 		j=0;
 		while(true)
 		{
-			res=await contractins.methods.getchunk(SelPlaces[i],j).call({"from":coinbase},function(err,res){
+			resu=await contractins.methods.getchunk(SelPlaces[i],j).call({"from":coinbase},function(err,res){
 				return res;
 			});
+			res=resu.res;
+
 			if(res==null)
 				break;
 			buff=[];
@@ -219,19 +226,22 @@ async function getfiles(subname,max){
 			j++;
 		}
 		chunks=Buffer.concat(chunks);
-		fs.writeFileSync("retrievedimages/"+i+".jpg",chunks);
+		fs.writeFileSync("retrievedfiles/"+resu.name,chunks);
 	}
 }
 
 async function upload()
 {
-	let names=["apple","apple_logo","apple_logo_7-wallpaper-480x272","apple_simple_blue-wallpaper-1366x768","apple1234","apple-colorfix","applefruit","applegreens","apple-locksys","apple-seedgrow","applesses","appletree","apple-usersman","benefits-of-pineapple","combinationorange","cutofforange","green_apple_fresh-wallpaper-1024x576","greenbowlapple","icecreamorange","insideorange","istock_medium_orange","juice-orange","normal-orangejuice","orange","orange_barrr","orange-candy-ice-cream-bar","orange-icecream1","orange-juiceicecubes","orange-lotof","orangePealed","orange-showcase","orange-strawicecubes","packet-orange","Paula-Red-apples","pexels-pixabay-orange","pineapple","pink-lady-apples","pop-orange-ice-cream","top-view-small-medicum-big-size-apples","umbrella-orange"];
+	let directory="./upfiles/";
+	let names=fs.readdirSync('./upfiles/');
 	for(let i=0;i<names.length;i++)
 	{
-		await test(i,30768,names[i]+".jpg");
+		await test(i,30768,names[i],directory);
 	}
 }
 //upload();
 
 //test(1,30768,"benefits-of-pineapple.jpg")
-getfiles("apple",20);
+getfiles("a",100);
+
+
