@@ -1,2 +1,0 @@
-let names=["appletree.jpg","apple-usersman.jpg","benefits-of-pineapple.jpg","green_apple_fresh-wallpaper-1024x576.jpg","greenbowlapple.jpg","Paula-Red-apples.jpg","pineapple.jpg","pink-lady-apples.jpg","top-view-small-medicum-big-size-apples.jpg"];
-console.log(names.length)

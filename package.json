@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev" : "yalc publish && cd example && yalc add blockchain-without-ipfs && yalc update blockchain-without-ipfs"
   },
   "keywords": [],
   "author": "",

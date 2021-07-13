@@ -1,9 +1,9 @@
-
+const {blockchainRpcUrl, contractAddress} = require("./config")
 var fs=require("fs");
 const { resolve } = require("path");
 var Web3=require("web3")
 var {performance}=require("perf_hooks")
-var web3=new Web3("http://localhost:8546");
+var web3=new Web3(blockchainRpcUrl);
 const path = require('path');
 
 var contractins=new web3.eth.Contract([
@@ -101,7 +101,7 @@ var contractins=new web3.eth.Contract([
 		"stateMutability": "view",
 		"type": "function"
 	}
-],"0x8e537258e2ea75E5a46854787d8A47949CcA2E7E")
+],contractAddress)
 
 
 let chunks=[];
@@ -239,9 +239,10 @@ async function upload()
 		await test(i,30768,names[i],directory);
 	}
 }
-//upload();
+// //upload();
 
-//test(1,30768,"benefits-of-pineapple.jpg")
-getfiles("a",100);
+// //test(1,30768,"benefits-of-pineapple.jpg")
+// getfiles("a",100);
 
+module.exports={upload, getfiles}
 
