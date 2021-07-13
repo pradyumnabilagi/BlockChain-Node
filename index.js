@@ -190,7 +190,7 @@ async function test(fileplace,len,name,directory)
 }
 
 
-async function getfiles(subname,max){
+async function getfiles(subname,max,directory){
 	
     const coinbase=await web3.eth.getCoinbase().then(res=>res);
     const {SelPlaces,Num}=await contractins.methods.getPlaces(subname,max).call({"from":coinbase},function(err,res){
@@ -226,23 +226,17 @@ async function getfiles(subname,max){
 			j++;
 		}
 		chunks=Buffer.concat(chunks);
-		fs.writeFileSync("retrievedfiles/"+resu.name,chunks);
+		fs.writeFileSync(directory+resu.name,chunks);
 	}
 }
 
-async function upload()
+async function upload(directory)
 {
-	let directory="./upfiles/";
 	let names=fs.readdirSync('./upfiles/');
 	for(let i=0;i<names.length;i++)
 	{
 		await test(i,30768,names[i],directory);
 	}
 }
-// //upload();
-
-// //test(1,30768,"benefits-of-pineapple.jpg")
-// getfiles("a",100);
-
 module.exports={upload, getfiles}
 
