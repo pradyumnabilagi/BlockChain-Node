@@ -61,8 +61,8 @@ contract Greeting {
     }
     
     
-    function getchunk(uint k,uint i) view public returns (bytes){
-        return Files[k].chunks[i];
+    function getchunk(uint k,uint i) view public returns (string name,bytes res){
+        return (Files[k].name,Files[k].chunks[i]);
     }
 
     function getoccplaces() view public returns (uint[]){
